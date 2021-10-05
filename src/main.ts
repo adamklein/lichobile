@@ -21,7 +21,7 @@ settingsInit()
   Capacitor.platform === 'ios' ?
     Plugins.CPUInfo.nbCores().then((r: { value: number }) => r.value).catch(() => 1) :
     Promise.resolve((<XNavigator>navigator).hardwareConcurrency || 1),
-  Plugins.StockfishVariants.getMaxMemory().then((r: { value: number }) => r.value).catch(() => 16),
+  Plugins.Stockfish.getMaxMemory().then((r: { value: number }) => r.value).catch(() => 16),
   Capacitor.platform === 'android' ?
     Plugins.LiBuildConfig.get() : Promise.resolve({
       NNUE: false

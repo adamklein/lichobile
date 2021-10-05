@@ -23,9 +23,22 @@
 		9669431E234B79A000145494 /* SoundEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 9669431D234B79A000145494 /* SoundEffect.m */; };
 		96845EFE2590DA4800C770E3 /* CPUInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96845EFD2590DA4800C770E3 /* CPUInfo.swift */; };
 		96845F012590DC4500C770E3 /* CPUInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 96845F002590DC4500C770E3 /* CPUInfo.m */; };
-		969B609A236B2E9500DB0383 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 969B6099236B2E9500DB0383 /* GoogleService-Info.plist */; };
+		9C7274A0270A42140021BDFC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9C72749F270A42140021BDFC /* GoogleService-Info.plist */; };
 		D7E1541F4731FBAB47F7F646 /* Pods_lichess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1693543776B40CE12260567 /* Pods_lichess.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9C7274A6270B88CB0021BDFC /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2FAD9762203C412B000D30F8 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
@@ -49,11 +62,9 @@
 		9669431D234B79A000145494 /* SoundEffect.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SoundEffect.m; sourceTree = "<group>"; };
 		96845EFD2590DA4800C770E3 /* CPUInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUInfo.swift; sourceTree = "<group>"; };
 		96845F002590DC4500C770E3 /* CPUInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CPUInfo.m; sourceTree = "<group>"; };
-		969B6099236B2E9500DB0383 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		969B609B236B34F000DB0383 /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
-		AF51FD2D460BCFE21FA515B2 /* Pods-App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App.release.xcconfig"; path = "Pods/Target Support Files/Pods-App/Pods-App.release.xcconfig"; sourceTree = "<group>"; };
+		9C72749F270A42140021BDFC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E1693543776B40CE12260567 /* Pods_lichess.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lichess.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FC68EB0AF532CFC21C3344DD /* Pods-App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-App/Pods-App.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,8 +110,8 @@
 		504EC3061FED79650016851F /* App */ = {
 			isa = PBXGroup;
 			children = (
+				9C72749F270A42140021BDFC /* GoogleService-Info.plist */,
 				969B609B236B34F000DB0383 /* App.entitlements */,
-				969B6099236B2E9500DB0383 /* GoogleService-Info.plist */,
 				50379B222058CBB4000EE86E /* capacitor.config.json */,
 				504EC3071FED79650016851F /* AppDelegate.swift */,
 				504EC30B1FED79650016851F /* Main.storyboard */,
@@ -124,8 +135,6 @@
 		7F8756D8B27F46E3366F6CEA /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				FC68EB0AF532CFC21C3344DD /* Pods-App.debug.xcconfig */,
-				AF51FD2D460BCFE21FA515B2 /* Pods-App.release.xcconfig */,
 				4258111A0A913D622B1C57C1 /* Pods-lichess.debug.xcconfig */,
 				40487857C9C3599256EB1AB6 /* Pods-lichess.release.xcconfig */,
 			);
@@ -144,6 +153,7 @@
 				504EC3011FED79650016851F /* Frameworks */,
 				504EC3021FED79650016851F /* Resources */,
 				9592DBEFFC6D2A0C8D5DEB22 /* [CP] Embed Pods Frameworks */,
+				9C7274A6270B88CB0021BDFC /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -204,7 +214,7 @@
 				50379B232058CBB4000EE86E /* capacitor.config.json in Resources */,
 				504EC30D1FED79650016851F /* Main.storyboard in Resources */,
 				2FAD9763203C412B000D30F8 /* config.xml in Resources */,
-				969B609A236B2E9500DB0383 /* GoogleService-Info.plist in Resources */,
+				9C7274A0270A42140021BDFC /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,11 +419,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
 				INFOPLIST_FILE = App/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_CPLUSPLUSFLAGS = "";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-DDEBUG\"";
-				PRODUCT_BUNDLE_IDENTIFIER = org.lichess.mobileapp.official;
+				PRODUCT_BUNDLE_IDENTIFIER = com.597forest.app.chesslines;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG USE_PUSH";
 				SWIFT_OBJC_BRIDGING_HEADER = "App-Bridging-Header.h";
@@ -435,10 +445,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
 				INFOPLIST_FILE = App/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_CPLUSPLUSFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = org.lichess.mobileapp.official;
+				PRODUCT_BUNDLE_IDENTIFIER = com.597forest.app.chesslines;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = USE_PUSH;
 				SWIFT_OBJC_BRIDGING_HEADER = "App-Bridging-Header.h";

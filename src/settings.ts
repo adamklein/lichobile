@@ -6,14 +6,6 @@ const STORAGE_KEY = 'settings'
 
 const offlineAvailableVariants: [string, VariantKey][] = [
   ['Standard', 'standard'],
-  ['Crazyhouse', 'crazyhouse'],
-  ['Chess960', 'chess960'],
-  ['King of the Hill', 'kingOfTheHill'],
-  ['Three-check', 'threeCheck'],
-  ['Antichess', 'antichess'],
-  ['Atomic', 'atomic'],
-  ['Horde', 'horde'],
-  ['Racing Kings', 'racingKings']
 ]
 
 const availableClocks = [
@@ -125,9 +117,7 @@ export default {
   },
 
   game: {
-    supportedVariants: ['standard', 'chess960', 'antichess', 'fromPosition',
-      'kingOfTheHill', 'threeCheck', 'atomic', 'horde', 'racingKings', 'crazyhouse'
-    ],
+    supportedVariants: ['standard'],
     animations: prop<boolean>('gameAnimations', true),
     highlights: prop<boolean>('boardHighlights', true),
     pieceDestinations: prop<boolean>('pieceDestinations', true),

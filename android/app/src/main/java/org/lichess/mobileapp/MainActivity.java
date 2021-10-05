@@ -21,7 +21,6 @@ import com.getcapacitor.plugin.Storage;
 
 import org.lichess.plugin.SoundEffect;
 import org.lichess.mobileapp.stockfish.Stockfish;
-import org.lichess.mobileapp.stockfish.StockfishVariants;
 import org.lichess.mobileapp.BuildConfig;
 
 import java.io.File;
@@ -47,7 +46,6 @@ public class MainActivity extends BridgeActivity {
       add(SoundEffect.class);
       add(KeepAwake.class);
       add(Stockfish.class);
-      add(StockfishVariants.class);
     }});
 
     this.versionUpdateActions();
