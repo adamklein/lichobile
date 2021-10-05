@@ -9,12 +9,13 @@ interface IStockfishPlugin {
 }
 
 const CapacitorStockfish = Plugins.Stockfish as IStockfishPlugin
+const StockfishWeb = Plugins.StockfishWeb as IStockfishPlugin 
 
 export class StockfishPlugin {
   private plugin: IStockfishPlugin
 
   constructor(readonly variant: VariantKey) {
-    this.plugin = CapacitorStockfish
+    this.plugin = Capacitor.platform === 'web' ? StockfishWeb : CapacitorStockfish
   }
 
   public async start(): Promise<{ engineName: string }> {
@@ -22,7 +23,7 @@ export class StockfishPlugin {
       let engineName = 'Stockfish'
       const listener = (e: Event) => {
         const line = (e as any).output
-        console.debug('[stockfish >> yo! >> ] ' + line)
+        console.debug('[stockfish >> ] ' + line)
         if (line.startsWith('id name ')) {
           engineName = line.substring('id name '.length)
         }
