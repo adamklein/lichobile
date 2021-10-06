@@ -39,7 +39,6 @@ if (Capacitor.platform === 'web') {
 
     async cmd({ cmd }: { cmd: string }) {
       return new Promise((resolve) => {
-        console.debug(">>!! Sending stockfish a cmd: " + cmd)
         if (this.worker) this.worker.postMessage(cmd)
           setTimeout(resolve, 1)
       })

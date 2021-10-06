@@ -1,5 +1,4 @@
 import { Capacitor, Plugins } from '@capacitor/core'
-import { VariantKey } from './lichess/interfaces/variant'
 
 interface IStockfishPlugin {
   getMaxMemory(): Promise<{ value: number }>
@@ -14,7 +13,7 @@ const StockfishWeb = Plugins.StockfishWeb as IStockfishPlugin
 export class StockfishPlugin {
   private plugin: IStockfishPlugin
 
-  constructor(readonly variant: VariantKey) {
+  constructor() {
     this.plugin = Capacitor.platform === 'web' ? StockfishWeb : CapacitorStockfish
   }
 
@@ -61,29 +60,8 @@ export class StockfishPlugin {
     return this.send(`setoption name ${name} value ${value}`)
   }
 
-  public setVariant(): Promise<void> {
-    if (this.isVariant()) {
-      if (Capacitor.platform !== 'web' && this.variant === 'threeCheck')
-        return this.setOption('UCI_Variant', '3check')
-      if (Capacitor.platform === 'web' && this.variant === 'antichess')
-        return this.setOption('UCI_Variant', 'giveaway')
-      else
-        return this.setOption('UCI_Variant', this.variant.toLowerCase())
-    } else {
-      return this.setOption('UCI_Chess960', 'chess960' === this.variant)
-    }
-  }
-
   public exit(): Promise<void> {
     return this.plugin.exit()
-  }
-
-  private isVariant() {
-    return !(
-      this.variant === 'standard' ||
-      this.variant === 'fromPosition' ||
-      this.variant === 'chess960'
-    )
   }
 }
 

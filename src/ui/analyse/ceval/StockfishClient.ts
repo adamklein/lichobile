@@ -32,11 +32,10 @@ export default class StockfishClient {
   public evaluation = 'classical'
 
   constructor(
-    variant: VariantKey,
     readonly threads: number,
     readonly hash: number,
   ) {
-    this.stockfish = new StockfishPlugin(variant)
+    this.stockfish = new StockfishPlugin()
     this.ready = defer()
     this.ready.resolve()
   }
@@ -49,7 +48,6 @@ export default class StockfishClient {
       window.addEventListener('stockfish', this.listener, { passive: true })
       const obj = await this.stockfish.start()
       this.engineName = obj.engineName
-      await this.stockfish.setVariant()
       await this.stockfish.setOption('UCI_AnalyseMode', 'true')
       await this.stockfish.setOption('Analysis Contempt', 'Off')
       await this.stockfish.setOption('Threads', this.threads)

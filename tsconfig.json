@@ -15,7 +15,8 @@
     "noUnusedLocals": true,
     "jsx": "react",
     "jsxFactory": "h",
-    "types": ["lodash-es", "d3"]
+    "types": ["lodash-es", "d3"],
+    "sourceMap": true
   },
   "include": [
     "src/**/*.js",

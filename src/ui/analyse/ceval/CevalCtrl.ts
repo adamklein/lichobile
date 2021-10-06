@@ -23,7 +23,7 @@ export default class CevalCtrl {
     this.allowed = opts.allowed
     this.variant = opts.variant
     this.isEnabled = settings.analyse.enableCeval()
-    this.engine = new StockfishClient(opts.variant, opts.cores, opts.hashSize)
+    this.engine = new StockfishClient(opts.cores, opts.hashSize)
   }
 
   public enabled(): boolean {

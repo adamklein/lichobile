@@ -92,14 +92,14 @@ export default {
         ['maestro'],
         ['fresca'],
         ['cardinal'],
-	['gioco'],
+      	['gioco'],
         ['tatiana' ],
         ['staunty' ],
         ['governor'],
         ['symmetric' ],
         ['dubrovny' ],
-	['icpieces'],
-	['libra'],
+        ['icpieces'],
+        ['libra'],
         ['shapes' ],
         ['letter' ],
         ['horsey'],
@@ -133,9 +133,7 @@ export default {
   },
 
   analyse: {
-    supportedVariants: ['standard', 'chess960', 'antichess', 'fromPosition',
-      'kingOfTheHill', 'threeCheck', 'atomic', 'horde', 'racingKings', 'crazyhouse'
-    ],
+    supportedVariants: ['standard'],
     availableVariants: offlineAvailableVariants,
     syntheticVariant: prop<VariantKey>('analyse.syntheticVariant', 'standard'),
     enableCeval: prop<boolean>('analyse.enableCeval', false),

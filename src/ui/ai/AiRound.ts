@@ -117,7 +117,7 @@ export default class AiRound implements AiRoundInterface, PromotingInterface {
       ground.reload(this.chessground, this.data, this.replay.situation())
     }
 
-    if (this.engine && this.engine.variant === variant) {
+    if (this.engine) {
       this.engine.newGame()
       .then(() => {
         if (this.isEngineToMove()) {
@@ -125,11 +125,7 @@ export default class AiRound implements AiRoundInterface, PromotingInterface {
         }
       })
     } else {
-      if (this.engine) {
-        this.engine.exit()
-        this.engine = undefined
-      }
-      this.engine = new Engine(this, variant)
+      this.engine = new Engine(this)
       this.engine.init()
       .then(() => {
         if (this.isEngineToMove()) {

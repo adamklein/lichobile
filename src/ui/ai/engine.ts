@@ -8,7 +8,7 @@ export default class Engine {
   private isInit = false
   private listener: (e: Event) => void
 
-  constructor(readonly ctrl: AiRoundInterface, readonly variant: VariantKey) {
+  constructor(readonly ctrl: AiRoundInterface) {
     this.listener = (e: Event) => {
       const line = (e as any).output
       console.debug('[stockfish >>] ' + line)
@@ -18,7 +18,7 @@ export default class Engine {
         else if (bmMatch[2]) this.ctrl.onEngineDrop(bmMatch[2])
       }
     }
-    this.stockfish = new StockfishPlugin(variant)
+    this.stockfish = new StockfishPlugin()
   }
 
   public async init(): Promise<void> {
@@ -27,7 +27,6 @@ export default class Engine {
         await this.stockfish.start()
         this.isInit = true
         window.addEventListener('stockfish', this.listener, { passive: true })
-        await this.stockfish.setVariant()
         await this.stockfish.setOption('Threads', getNbCores())
         const mem = await getMaxMemory()
         if (Capacitor.platform !== 'web') {
