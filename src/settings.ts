@@ -241,14 +241,6 @@ export default {
       color: prop('game.ai.color', 'random'),
       availableVariants: [
         ['Standard', '1'],
-        ['Crazyhouse', '10'],
-        ['Chess960', '2'],
-        ['King of the Hill', '4'],
-        ['Three-check', '5'],
-        ['Antichess', '6'],
-        ['Atomic', '7'],
-        ['Horde', '8'],
-        ['Racing Kings', '9'],
         ['From Position', '3']
       ],
       variant: prop('game.ai.variant', '1'),

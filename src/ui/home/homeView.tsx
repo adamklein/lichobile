@@ -1,25 +1,20 @@
 import h from 'mithril/hyperscript'
 import router from '../../router'
 import socket from '../../socket'
-import { openExternalBrowser } from '../../utils/browse'
-import { emptyFen } from '../../utils/fen'
+
 import { gameIcon, hasNetwork } from '../../utils'
-import i18n, { plural, formatNumber, distanceToNowStrict } from '../../i18n'
+import i18n, { plural, formatNumber } from '../../i18n'
 import session from '../../session'
 import { PongMessage, CorrespondenceSeek } from '../../lichess/interfaces'
-import spinner from '../../spinner'
 import * as helper from '../helper'
-import { renderTimelineEntry, timelineOnTap } from '../timeline'
 import signals from '../../signals'
 import MiniBoard from '../shared/miniBoard'
 import TabNavigation from '../shared/TabNavigation'
 import TabView from '../shared/TabView'
 import newGameForm, { renderQuickSetup } from '../newGameForm'
-import challengeForm from '../challengeForm'
-import playMachineForm from '../playMachineForm'
-import { renderTournamentList } from '../tournament/tournamentsListView'
 
 import HomeCtrl from './HomeCtrl'
+import playMachineForm from '../playMachineForm'
 
 export function body(ctrl: HomeCtrl) {
   if (hasNetwork()) return online(ctrl)
@@ -55,22 +50,10 @@ function offline(ctrl: HomeCtrl) {
 }
 
 function online(ctrl: HomeCtrl) {
-  const playban = session.get()?.playban
-  const playbanEndsAt = playban && new Date(playban.date + playban.mins * 60000)
-
   return (
     <div className="home">
-      {playbanEndsAt && ((playbanEndsAt.valueOf() - Date.now()) / 1000) > 1 ?
-        renderPlayban(playbanEndsAt) : renderLobby(ctrl)
-      }
+      {renderLobby(ctrl)}
       {renderStart(ctrl)}
-      <div className="home__side">
-        {renderFeaturedStreamers(ctrl)}
-        {renderFeaturedTournaments(ctrl)}
-        {renderTimeline(ctrl)}
-      </div>
-      {renderFeaturedGame(ctrl)}
-      {renderDailyPuzzle(ctrl)}
     </div>
   )
 }
@@ -79,16 +62,6 @@ function renderStart(ctrl: HomeCtrl) {
   return (
     <div className="home__start">
       <div className="home__buttons">
-        <button className="buttonMetal"
-          oncreate={helper.ontapY(() => newGameForm.openRealTime('custom'))}
-        >
-          {i18n('createAGame')}
-        </button>
-        <button className="buttonMetal"
-          oncreate={helper.ontapY(() => challengeForm.open())}
-        >
-          {i18n('playWithAFriend')}
-        </button>
         <button className="buttonMetal"
           oncreate={helper.ontapY(playMachineForm.open)}
         >
@@ -141,8 +114,8 @@ function spreadNumber(
 ): (nb: number, ons?: number) => void {
   let previous: number
   let displayed: string
-  function display(el: HTMLElement | null, prev: number, cur: number, it: number) {
-    const val = formatNumber(Math.round(((prev * (nbSteps - 1 - it)) + (cur * (it + 1))) / nbSteps))
+  function display(el: HTMLElement | null, _prev: number, cur: number, _it: number) {
+    const val = formatNumber(cur) // formatNumber(Math.round(((prev * (nbSteps - 1 - it)) + (cur * (it + 1))) / nbSteps))
     if (el && val !== displayed) {
       if (!ctrl.isScrolling) {
         el.textContent = val
@@ -244,138 +217,109 @@ function renderSeek(ctrl: HomeCtrl, seek: CorrespondenceSeek) {
   ])
 }
 
-function renderFeaturedTournaments(ctrl: HomeCtrl) {
-  if (ctrl.featuredTournaments?.length)
-    return (
-      <div className="home__tournament">
-        {renderTournamentList(ctrl.featuredTournaments)}
-      </div>
-    )
-  else
-    return null
-}
+// function renderFeaturedTournaments(ctrl: HomeCtrl) {
+//   if (ctrl.featuredTournaments?.length)
+//     return (
+//       <div className="home__tournament">
+//         {renderTournamentList(ctrl.featuredTournaments)}
+//       </div>
+//     )
+//   else
+//     return null
+// }
 
-function renderFeaturedStreamers(ctrl: HomeCtrl) {
-  if (ctrl.featuredStreamers?.length)
-    return h('ul.home__streamers', ctrl.featuredStreamers.map(s =>
-      h('li.home__streamer', {
-        oncreate: helper.ontapY(() => openExternalBrowser(s.url)),
-      }, [
-        h('strong[data-icon=]', (s.user.title ? s.user.title + ' ' : '') + s.user.name),
-        h('span.status', ' ' + s.status),
-      ])
-    ))
-  else
-    return null
-}
+// function renderFeaturedStreamers(ctrl: HomeCtrl) {
+//   if (ctrl.featuredStreamers?.length)
+//     return h('ul.home__streamers', ctrl.featuredStreamers.map(s =>
+//       h('li.home__streamer', {
+//         oncreate: helper.ontapY(() => openExternalBrowser(s.url)),
+//       }, [
+//         h('strong[data-icon=]', (s.user.title ? s.user.title + ' ' : '') + s.user.name),
+//         h('span.status', ' ' + s.status),
+//       ])
+//     ))
+//   else
+//     return null
+// }
 
-function renderFeaturedGame(ctrl: HomeCtrl) {
-  const featured = ctrl.featuredGame
-  const boardConf = featured ? {
-    fixed: false,
-    fen: featured.fen,
-    orientation: featured.orientation,
-    lastMove: featured.lastMove,
-    link: () => {
-      router.set('/tv?channel=best')
-    },
-    gameObj: featured,
-  } : {
-    fixed: false,
-    orientation: 'white' as Color,
-    fen: emptyFen,
-  }
+// function renderFeaturedGame(ctrl: HomeCtrl) {
+//   const featured = ctrl.featuredGame
+//   const boardConf = featured ? {
+//     fixed: false,
+//     fen: featured.fen,
+//     orientation: featured.orientation,
+//     lastMove: featured.lastMove,
+//     link: () => {
+//       router.set('/tv?channel=best')
+//     },
+//     gameObj: featured,
+//   } : {
+//     fixed: false,
+//     orientation: 'white' as Color,
+//     fen: emptyFen,
+//   }
 
-  return (
-    <section className="home__featured">
-      {h(MiniBoard, boardConf)}
-    </section>
-  )
-}
+//   return (
+//     <section className="home__featured">
+//       {h(MiniBoard, boardConf)}
+//     </section>
+//   )
+// }
 
-function renderDailyPuzzle(ctrl: HomeCtrl) {
-  const daily = ctrl.dailyPuzzle
-  const boardConf = daily && daily.puzzle && daily.game && daily.game.treeParts ? {
-    fixed: true,
-    fen: daily.game.treeParts.fen,
-    lastMove: daily.game.treeParts.uci,
-    orientation: daily.puzzle.color,
-    link: () => router.set(`/training/${daily.puzzle.id}?initFen=${daily.puzzle.fen}&initColor=${daily.puzzle.color}`),
-    topText: i18n('puzzleOfTheDay'),
-    bottomText: daily.puzzle.color === 'white' ? i18n('whitePlays') : i18n('blackPlays'),
-  } : {
-    fixed: true,
-    orientation: 'white' as Color,
-    fen: emptyFen,
-  }
+// function renderDailyPuzzle(ctrl: HomeCtrl) {
+//   const daily = ctrl.dailyPuzzle
+//   const boardConf = daily && daily.puzzle && daily.game && daily.game.treeParts ? {
+//     fixed: true,
+//     fen: daily.game.treeParts.fen,
+//     lastMove: daily.game.treeParts.uci,
+//     orientation: daily.puzzle.color,
+//     link: () => router.set(`/training/${daily.puzzle.id}?initFen=${daily.puzzle.fen}&initColor=${daily.puzzle.color}`),
+//     topText: i18n('puzzleOfTheDay'),
+//     bottomText: daily.puzzle.color === 'white' ? i18n('whitePlays') : i18n('blackPlays'),
+//   } : {
+//     fixed: true,
+//     orientation: 'white' as Color,
+//     fen: emptyFen,
+//   }
 
-  return (
-    <section className="home__miniPuzzle">
-      {h(MiniBoard, boardConf)}
-    </section>
-  )
-}
+//   return (
+//     <section className="home__miniPuzzle">
+//       {h(MiniBoard, boardConf)}
+//     </section>
+//   )
+// }
 
-function renderTimeline(ctrl: HomeCtrl) {
-  const timeline = ctrl.timeline
+// function renderTimeline(ctrl: HomeCtrl) {
+//   const timeline = ctrl.timeline
 
-  if (timeline === undefined) {
-    return (
-      <section className="home__timeline loading">
-        {spinner.getVdom('monochrome')}
-      </section>
-    )
-  }
+//   if (timeline === undefined) {
+//     return (
+//       <section className="home__timeline loading">
+//         {spinner.getVdom('monochrome')}
+//       </section>
+//     )
+//   }
 
-  if (timeline.length === 0) {
-    return (
-      <section className="home__timeline">
-      </section>
-    )
-  }
+//   if (timeline.length === 0) {
+//     return (
+//       <section className="home__timeline">
+//       </section>
+//     )
+//   }
 
-  return (
-    <section className="home__timeline">
-      <ul
-        oncreate={helper.ontapY(timelineOnTap, undefined, helper.getLI)}
-      >
-        { timeline.map(renderTimelineEntry)}
-      </ul>
-      <div className="more">
-        <button oncreate={helper.ontapY(() => router.set('/timeline'))}>
-          {i18n('more')} »
-        </button>
-      </div>
-    </section>
-  )
-}
-
-function renderPlayban(endsAt: Date) {
-  return (
-    <div className="home-playbanInfo">
-      <h2>{i18n('sorry')}</h2>
-      <p>{i18n('weHadToTimeYouOutForAWhile')}</p>
-      <br />
-      <p>{h.trust(i18n('timeoutExpires', `<strong>${distanceToNowStrict(endsAt)}</strong>`))}</p>
-      <h2>{i18n('why')}</h2>
-      <p>
-        {i18n('pleasantChessExperience')}<br />
-        {i18n('goodPractice')}<br />
-        {i18n('potentialProblem')}
-      </p>
-      <h2>{i18n('howToAvoidThis')}</h2>
-      <ul>
-        <li>{i18n('playEveryGame')}</li>
-        <li>{i18n('tryToWin')}</li>
-        <li>{i18n('resignLostGames')}</li>
-      </ul>
-      <br />
-      <p>
-        {i18n('temporaryInconvenience')}<br />
-        {i18n('wishYouGreatGames')}<br />
-        {i18n('thankYouForReading')}
-      </p>
-    </div>
-  )
-}
+//   return (
+//     <section className="home__timeline">
+//       <ul
+//         oncreate={helper.ontapY(timelineOnTap, undefined, helper.getLI)}
+//       >
+//         { timeline.map(renderTimelineEntry)}
+//       </ul>
+//       <div className="more">
+//         <button oncreate={helper.ontapY(() => router.set('/timeline'))}>
+//           {i18n('more')} »
+//         </button>
+//       </div>
+//     </section>
+//   )
+// }
 

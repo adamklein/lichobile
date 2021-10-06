@@ -6,6 +6,7 @@ import json from '@rollup/plugin-json'
 import strip from '@rollup/plugin-strip'
 import { terser } from 'rollup-plugin-terser'
 import visualizer from 'rollup-plugin-visualizer'
+import sourcemaps from 'rollup-plugin-sourcemaps'
 
 const release = process.env.APP_MODE === 'release'
 const projectRootDir = path.resolve(__dirname)
@@ -19,6 +20,7 @@ export default {
     sourcemap: !release,
   },
   plugins: [
+    sourcemaps(),
     alias({
       entries: [
         {

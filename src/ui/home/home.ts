@@ -33,7 +33,7 @@ export default {
   },
 
   view() {
-    const header = dropShadowHeader('lichess.org')
+    const header = dropShadowHeader('HEADER')
 
     return layout.free(
       header,
