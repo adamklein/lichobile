@@ -11,7 +11,7 @@ export default class Engine {
   constructor(readonly ctrl: AiRoundInterface) {
     this.listener = (e: Event) => {
       const line = (e as any).output
-      console.debug('[stockfish >>] ' + line)
+      console.debug('[stockfish >> ] ' + line)
       const bmMatch = line.match(/^bestmove (\w{4,5})|^bestmove ([PNBRQ]@\w{2})/)
       if (bmMatch) {
         if (bmMatch[1]) this.ctrl.onEngineMove(bmMatch[1])

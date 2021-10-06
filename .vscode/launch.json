@@ -5,17 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch via NPM",
+            "type": "pwa-chrome",
             "request": "launch",
-            "runtimeArgs": [
-                "run",
-                "serve"
-            ],
-            "runtimeExecutable": "npm",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "type": "pwa-node"
+            "name": "Debug App",
+            "url": "http://localhost:8080/www",
+            "webRoot": "${workspaceFolder}"
         }
     ]
 }

@@ -133,7 +133,7 @@ export default class StockfishClient {
    * command is sent by stockfish
    */
   private processOutput(text: string) {
-    console.debug('[stockfish >>] ' + text)
+    console.debug('[stockfish >> ] ' + text)
 
     const evalMatch = text.match(/^info string (classical|NNUE) evaluation/)
     if (evalMatch) {
