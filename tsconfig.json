@@ -4,7 +4,7 @@
     "paths": {
       "~/*": ["*"]
     },
-    "target": "es2017",
+    "target": "es2019",
     "suppressImplicitAnyIndexErrors": false,
     "allowSyntheticDefaultImports": true,
     "allowJs": true,

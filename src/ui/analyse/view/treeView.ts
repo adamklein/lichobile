@@ -25,6 +25,7 @@ export interface Opts {
   inline?: Tree.Node
   withIndex?: boolean
   truncate?: number
+  lastBranch?: boolean
 }
 
 export interface NodeClasses {
@@ -46,12 +47,14 @@ export default function renderTree(ctrl: AnalyseCtrl): Mithril.Children {
     showGlyphs: true,
     showEval: true
   }
+
+  
   const commentTags = renderInlineCommentsOf(ctx, root, true)
   return h('div.analyse-moveList', {
     className: window.deviceInfo.platform === 'ios' ? 'ios' : ''
   }, [
     commentTags,
-    renderChildrenOf(ctx, root, {
+    chessLinesRenderChildrenOf(ctx, root, {
       parentPath: '',
       isMainline: true
     }) || []
@@ -111,6 +114,91 @@ function renderChildrenOf(ctx: Ctx, node: Tree.Node, opts: Opts): MaybeVNode[] |
   if (!cs[1]) return renderMoveAndChildrenOf(ctx, main, opts)
   return renderInlined(ctx, cs, opts) || [renderLines(ctx, cs, opts)]
 }
+
+// function chessLinesRenderPath(ctx: Ctx): MaybeVNode[] | null {
+//   let nodes: Tree.Node[] = ctx.ctrl.tree.getNodeList(ctx.ctrl.path)
+  
+//   if (nodes.length <= 1) {
+//     return []
+//   }
+
+//   let current_line = nodes.slice(1, undefined).map( 
+//     (n, i) => {
+//       let pth = ctx.ctrl.path.slice(0, i*2)
+//       return renderMoveOf(ctx, n, { parentPath: pth, isMainline: ctx.ctrl.tree.pathIsMainline(pth) } ) 
+//     }
+//   ) 
+
+//   let pp = ctx.ctrl.path
+//   let children = chessLinesRenderChildrenOf(
+//     ctx, ctx.ctrl.node, { parentPath: pp, isMainline: false, truncate: 2 } )
+
+//   return current_line.concat(children)
+// }
+
+
+function chessLinesRenderChildrenOf(ctx: Ctx, node: Tree.Node, opts: Opts): MaybeVNode[] | null {
+  const cs = node.children
+  const main = cs[0]
+  if (!main) return null
+
+  if (!cs[1]) return chessLinesRenderMoveAndChildrenOf(ctx, main, {...opts})
+
+  let lastBranch = opts.lastBranch
+
+  let cs2 = cs.filter( (c) => ctx.ctrl.tree.isDescendant(c, ctx.ctrl.node) || ctx.ctrl.tree.isDescendant(ctx.ctrl.node, c))
+
+  if (lastBranch) {
+    if (cs2.length) {
+      return [ h('move', { 'data-path': opts.parentPath + node.id }, '[...]')]
+    }
+    else {
+      return []
+    }
+  }
+
+  if (node.ply >= ctx.ctrl.node.ply) {
+    lastBranch = true
+  }
+  
+  return [chessLinesRenderLines(ctx, cs2, {...opts, lastBranch: lastBranch})]
+  
+}
+
+function chessLinesRenderMoveAndChildrenOf(ctx: Ctx, node: Tree.Node, opts: Opts): MaybeVNode[] {
+  const path = opts.parentPath + node.id,
+  comments = renderInlineCommentsOf(ctx, node, true)
+  let truncate = opts.truncate
+
+  if (truncate === 0) return [
+    h('move', { 'data-path': path }, '[...]')
+  ]
+
+  let children = chessLinesRenderChildrenOf(ctx, node, {
+    parentPath: path,
+    isMainline: opts.isMainline,
+    truncate: truncate ? truncate - 1 : undefined,
+    withIndex: !!comments[0],
+    lastBranch: opts.lastBranch
+  })
+
+  return ([renderMoveOf(ctx, node, opts)] as MaybeVNode[])
+    .concat(comments)
+    .concat(children || [])
+}
+
+function chessLinesRenderLines(ctx: Ctx, nodes: Tree.Node[], opts: Opts): Mithril.Child {
+  return h('lines', nodes.map(n => {
+    return h('line', chessLinesRenderMoveAndChildrenOf(ctx, n, {
+      parentPath: opts.parentPath,
+      isMainline: false,
+      withIndex: true,
+      truncate: opts.truncate ? opts.truncate - 1 : undefined, // n.comp && !treePath.contains(ctx.ctrl.path, opts.parentPath + n.id) ? LINES_PLIES : undefined
+      lastBranch: opts.lastBranch
+    }))
+  }))
+}
+
 
 function renderInlined(ctx: Ctx, nodes: Tree.Node[], opts: Opts): MaybeVNode[] | null {
   // only 2 branches

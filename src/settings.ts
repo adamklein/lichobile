@@ -317,6 +317,10 @@ export default {
     }
   },
 
+  chesslines: {
+    color: prop('chesslines.color', 'white')
+  },
+
   tournament: {
     availableVariants: [
       ['Standard', '1'],

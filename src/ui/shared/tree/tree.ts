@@ -32,9 +32,25 @@ export interface TreeWrapper {
   removeComputerVariations(): void
   parentNode(path: Tree.Path): Tree.Node
   getParentClock(node: Tree.Node, path: Tree.Path): Tree.Clock | undefined
+  isDescendant(r: Tree.Node, n: Tree.Node): boolean
 }
 
 export function build(root: Tree.Node): TreeWrapper {
+
+  function isDescendant(r: Tree.Node, n: Tree.Node): boolean {
+      if (r.fen == n.fen) {
+        return true
+      }
+      if (!r.children.length) {
+        return false
+      }
+      let flag = false
+      r.children.forEach((c: Tree.Node) => {
+        flag = flag || isDescendant(c, n)
+      })
+      return flag
+  }
+
 
   function lastNode(): Tree.Node {
     return ops.findInMainline(root, (node: Tree.Node) => {
@@ -262,6 +278,7 @@ export function build(root: Tree.Node): TreeWrapper {
       })
     },
     parentNode,
-    getParentClock
+    getParentClock,
+    isDescendant
   }
 }

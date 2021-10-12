@@ -57,7 +57,8 @@ export default class HomeCtrl {
     this.selectedTab = defaultTab || 0
 
     if (hasNetwork()) {
-      this.init()
+      this.loadOfflinePuzzle()
+//      this.init() 
     } else {
       this.loadOfflinePuzzle()
     }
